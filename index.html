@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Created by jude</title>
+    <style>
+       body {
+    font-family: Arial, sans-serif;
+    background-image: url('profie.jfif');
+    background-size: 80%; /* Adjust this percentage to make the image smaller or larger */
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+
+        .login-container, .converter-container {
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            display: none;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        .login-container.active, .converter-container.active {
+            display: block;
+        }
+        .profile-img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="password"], textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error-message {
+            color: red;
+        }
+        h1, h2 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container active" id="loginContainer">
+        <img src="prof.png" alt="Profile Picture" class="profile-img">
+        <h1>Login</h1>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <div class="error-message" id="errorMessage"></div>
+        <button onclick="login()">Login</button>
+        <button onclick="resetLogin()">Reset</button>
+        <button onclick="cancelLogin()">Cancel</button>
+    </div>
+
+    <div class="converter-container" id="converterContainer">
+        <h1>Binary to Text, Text to Binary, and Number to Binary Converter</h1>
+        <div>
+            <h2>Binary to Text</h2>
+            <textarea id="binaryInput" placeholder="Enter binary numbers..."></textarea>
+            <button onclick="binaryToText()">Convert</button>
+            <button onclick="resetBinaryToText()">Reset</button>
+            <button onclick="copyTextOutput()">Copy</button>
+            <textarea id="textOutput" placeholder="Text output..."></textarea>
+        </div>
+        <div>
+            <h2>Text to Binary</h2>
+            <textarea id="textInput" placeholder="Enter text..."></textarea>
+            <button onclick="textToBinary()">Convert</button>
+            <button onclick="resetTextToBinary()">Reset</button>
+            <button onclick="copyBinaryOutput()">Copy</button>
+            <textarea id="binaryOutput" placeholder="Binary output..."></textarea>
+        </div>
+        <div>
+            <h2>Number to Binary</h2>
+            <textarea id="numberInput" placeholder="Enter numbers..."></textarea>
+            <button onclick="numberToBinary()">Convert</button>
+            <button onclick="resetNumberToBinary()">Reset</button>
+            <button onclick="copyNumberBinaryOutput()">Copy</button>
+            <textarea id="numberBinaryOutput" placeholder="Binary output..."></textarea>
+        </div>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+
+            if (password === '1818') {
+                document.getElementById('loginContainer').classList.remove('active');
+                document.getElementById('converterContainer').classList.add('active');
+            } else {
+                errorMessage.textContent = 'Incorrect password. Please try again.';
+            }
+        }
+
+        function resetLogin() {
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+            document.getElementById('errorMessage').textContent = '';
+        }
+
+        function cancelLogin() {
+            alert('Cancel is not available by Jude Developer');
+        }
+
+        function logout() {
+            document.getElementById('converterContainer').classList.remove('active');
+            document.getElementById('loginContainer').classList.add('active');
+            resetLogin();
+        }
+
+        function binaryToText() {
+            const binaryInput = document.getElementById('binaryInput').value;
+            const binaryArray = binaryInput.split(' ');
+            let textOutput = '';
+
+            binaryArray.forEach(binary => {
+                const decimal = parseInt(binary, 2);
+                if (!isNaN(decimal)) {
+                    if (decimal >= 0 && decimal <= 9) {
+                        textOutput += decimal;
+                    } else {
+                        textOutput += String.fromCharCode(decimal);
+                    }
+                }
+            });
+
+            document.getElementById('textOutput').value = textOutput;
+        }
+
+        function textToBinary() {
+            const textInput = document.getElementById('textInput').value;
+            let binaryOutput = '';
+
+            for (let i = 0; i < textInput.length; i++) {
+                binaryOutput += textInput[i].charCodeAt(0).toString(2).padStart(8, '0') + ' ';
+            }
+
+            document.getElementById('binaryOutput').value = binaryOutput.trim();
+        }
+
+        function numberToBinary() {
+            const numberInput = document.getElementById('numberInput').value;
+            const numberArray = numberInput.split(' ');
+            let binaryOutput = '';
+
+            numberArray.forEach(number => {
+                binaryOutput += parseInt(number).toString(2) + ' ';
+            });
+
+            document.getElementById('numberBinaryOutput').value = binaryOutput.trim();
+        }
+
+        function resetBinaryToText() {
+            document.getElementById('binaryInput').value = '';
+            document.getElementById('textOutput').value = '';
+        }
+
+        function resetTextToBinary() {
+            document.getElementById('textInput').value = '';
+            document.getElementById('binaryOutput').value = '';
+        }
+
+        function resetNumberToBinary() {
+            document.getElementById('numberInput').value = '';
+            document.getElementById('numberBinaryOutput').value = '';
+        }
+
+        function copyTextOutput() {
+            const textOutput = document.getElementById('textOutput');
+            textOutput.select();
+            document.execCommand('copy');
+            alert('Text copied to clipboard!');
+        }
+
+        function copyBinaryOutput() {
+            const binaryOutput = document.getElementById('binaryOutput');
+            binaryOutput.select();
+            document.execCommand('copy');
+            alert('Binary copied to clipboard!');
+        }
+
+        function copyNumberBinaryOutput() {
+            const numberBinaryOutput = document.getElementById('numberBinaryOutput');
+            numberBinaryOutput.select();
+            document.execCommand('copy');
+            alert('Binary copied to clipboard!');
+        }
+    </script>
+</body>
+</html>
